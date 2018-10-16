@@ -1,0 +1,36 @@
+==============================================================================
+OpenData Project: Status and distribution of touristic apartments in Barcelona
+==============================================================================
+In this folder you can find the following files:
+
+bcn-ayuntamiento-apts-latlong <-csv file with the data related to the touristic
+flats registered in the database of the Ajuntament de Barcelona
+
+bcn-geodata-barris <-csv file with the data related to the vertex of the 
+different neighborhoods
+
+data-airbnb <- csv file with the data related to the flats in the database of 
+inside airbnb
+
+registered_airbnb <- csv file with the data related to the statistics made by 
+our group
+
+data_representation_alert <- map that visualize the aim of our project
+
+managing_files <- python script that takes the data in the csv files and puts it 
+in the HTML template
+
+Also you can find the following folder: Template.
+
+Inside that folder there is a copy of data_representation_alert without data 
+inside.
+
+==============================================================================
+USE OF THE PROGRAM!!!!
+==============================================================================
+You can just execute the HTML file in your browser to visualize the position
+and status of the diferents flats by neighborhood by clicking above each one.
+
+To check the python script you have to replace the HTML file in the outer 
+folder with the HTML file that is inside the Template folder and execute the
+python script.

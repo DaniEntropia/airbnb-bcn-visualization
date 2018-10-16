@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script type="text/javascript">
+
+
+//Void variables to store the data from the inside_aribnb database, the council one, the vertex of the neighborhoods and statistics
+var inside_airbnb = 
+
+;
+
+var registered_flats = 
+
+;
+
+var neighborhoods_list = 
+
+;
+
+var statistics =
+
+;
+
+//Definig the center of the map
+var myLatLng = {
+  lat: 41.403529, lng: 2.173280
+}; 
+
+//We initialize the GoogleMaps map
+function initMap() {
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: myLatLng,
+    zoom: 13
+  });
+
+    //We define the a function that shows the flats and statistics of a neighborhood when clicking in the corresponding polygon
+   	var addListenersOnPolygon = function(polygon) {
+  	google.maps.event.addListener(polygon, 'click', function (event) {
+		alert("Neighbourhood name: " + this.Neighbourhood + "\n" +
+			  "Registered apartaments: " + this.Registered + "\n" + 
+        "Registration rate: " + this.Registered_percent + "\n" +
+			  "Total apartaments: " + this.Total_apartments + "  Touristic apartament's rate: " + this.Touristic_percent);
+		
+		//Iterate over de diferent flats of the array number "Neigh_num" of the main array
+	    for (i = 0; i < inside_airbnb[this.Neigh_num].length; i++) {  
+	      marker_inside_airbnb = new google.maps.Marker({
+	        position: new google.maps.LatLng(inside_airbnb[this.Neigh_num][i][0], inside_airbnb[this.Neigh_num][i][1]),
+	        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+	        map: map
+	      });
+	    (marker_inside_airbnb, i);
+		}
+
+	    for (j = 0; j < registered_flats[this.Neigh_num].length; j++) {  
+	      marker_registered_flats = new google.maps.Marker({
+	        position: new google.maps.LatLng(registered_flats[this.Neigh_num][j][0], registered_flats[this.Neigh_num][j][1]),
+	        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+	        map: map
+	      });
+	    (marker_registered_flats, j);
+	    }
+	});  
+  }
+  
+  //Define diferents colors for the neigbourhoods
+  var colors = ['#FF0000','#40FF00','#8258FA','#FFFF00','#0000FF'];
+
+  //Iterate over de diferent neigbourhoods
+  for(n = 0; n < neighborhoods_list.length; n++){
+  		
+      // Construct the coordinates object
+  		var neighborhood_cor =[];
+  		for(o = 0; o < neighborhoods_list[n].length; o++){ 
+  			var vertice = {lat: neighborhoods_list[n][o][0], lng: neighborhoods_list[n][o][1]};
+  			neighborhood_cor.push(vertice);
+  				
+		}
+      // Construct the polygon
+  		var neighborhood = new google.maps.Polygon({
+  		    paths: neighborhood_cor,
+  		    strokeColor: colors[n%5],
+  		    strokeOpacity: 0.8,
+  		    strokeWeight: 2,
+  		    fillColor: colors[n%5],
+  		    fillOpacity: 0.35,
+  		    Neigh_num: n,
+  		    Neighbourhood: statistics[n][0],
+  		    Registered: statistics[n][1],
+  		    Registered_percent: statistics[n][2],
+  		    Total_apartments: statistics[n][3], 
+  		    Touristic_percent: statistics[n][4]
+
+  		  });
+
+        //Set the map with the polygon
+  		  neighborhood.setMap(map);
+
+        //Add the listener to the polygon
+  		  addListenersOnPolygon(neighborhood);
+  	}
+}
+
+    </script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbH_zNbSTe_IX3LAgKCRHiDIQLCaSyG7M&callback=initMap">
+    </script>
+  </body>
+</html>
